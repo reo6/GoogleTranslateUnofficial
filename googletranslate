@@ -1,0 +1,90 @@
+#! /usr/bin/python3
+
+import gi
+import logging
+
+logging.basicConfig(format='[%(process)d] [%(levelname)s] %(message)s')
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
+gi.require_version('Gtk', '3.0')
+
+from gi.repository import Gtk
+
+try:
+    from googletrans import Translator
+except ImportError:
+    logger.critical(
+        'This application needs googletrans module\n'
+        'For install:\n'
+        '   sudo apt install python3-pip\n'
+        '   pip3 install googletrans'
+    )
+
+    exit()
+
+translator = Translator()
+
+class Handler:
+    def translate_clicked(self, button):
+        logger.debug('Translation started')
+
+        href = from_text_buffer.get_text(from_text_buffer.get_start_iter(), from_text_buffer.get_end_iter(), True)
+
+        if not href:
+            logger.error('Given empty text')
+            code = error_message.run()
+            if code == -7:
+                error_message.hide()
+        
+        fromc = fromcode.get_text()
+        if not fromc:
+            fromc = 'auto'
+        
+        to_c = tocode.get_text()
+        if not to_c:
+            to_c = None
+        
+        try:
+            result = translator.translate(href, dest=to_c, src=fromc)
+        except:
+            logger.error('Translation Error')
+            code = connection_error.run()
+            if code == -7:
+                connection_error.hide()
+        else:
+            result_buffer.set_text(result.text)
+        
+        
+    def open_about(self, *args):
+        x = about.run()
+        if x == -4:
+            about.hide()
+        
+    
+    def close_window(self, window):
+        Gtk.main_quit()
+    
+
+
+builder = Gtk.Builder()
+builder.add_from_file('googletranslateunofficial/translate.glade')
+builder.connect_signals(Handler())
+
+_ = builder.get_object
+
+window = _('main_window')
+about = _('about_window')
+result_buffer = _('result-text-buffer')
+fromtext = _('from_text')
+translate_b = _('translate')
+from_text_buffer = _('from-text-buffer')
+fromcode = _('from')
+tocode = _('to')
+error_message = _('error-message')
+connection_error = _('connection-error')
+
+window.show_all()
+
+Gtk.main()
+

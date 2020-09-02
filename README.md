@@ -1,5 +1,8 @@
+
 # Google Translate Unofficial
 Unofficial Google Translate Application for GNU/Linux
+  
+<a href="http://www.kernel.org"><img alt="Platform (GNU/Linux)" src="https://img.shields.io/badge/platform-GNU/Linux-blue.svg"></a>
 
 # Installing
 

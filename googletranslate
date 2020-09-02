@@ -1,11 +1,6 @@
 #! /usr/bin/python3
 
 import gi
-import logging
-
-logging.basicConfig(format='[%(process)d] [%(levelname)s] %(message)s')
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
 
 gi.require_version('Gtk', '3.0')
 
@@ -14,7 +9,7 @@ from gi.repository import Gtk
 try:
     from googletrans import Translator
 except ImportError:
-    logger.critical(
+    prınt(
         'This application needs googletrans module\n'
         'For install:\n'
         '   sudo apt install python3-pip\n'
@@ -27,12 +22,9 @@ translator = Translator()
 
 class Handler:
     def translate_clicked(self, button):
-        logger.debug('Translation started')
-
         href = from_text_buffer.get_text(from_text_buffer.get_start_iter(), from_text_buffer.get_end_iter(), True)
 
         if not href:
-            logger.error('Given empty text')
             code = error_message.run()
             if code == -7:
                 error_message.hide()
@@ -48,7 +40,6 @@ class Handler:
         try:
             result = translator.translate(href, dest=to_c, src=fromc)
         except:
-            logger.error('Translation Error')
             code = connection_error.run()
             if code == -7:
                 connection_error.hide()

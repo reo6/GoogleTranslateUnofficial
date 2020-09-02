@@ -718,8 +718,7 @@ Public License instead of this License.  But first, please read
     <property name="message_type">error</property>
     <property name="buttons">close</property>
     <property name="text" translatable="yes">Translation Failed</property>
-    <property name="secondary_text">* Check your Internet Connection
-* Check language code correctness</property>
+    <property name="secondary_text" translatable="yes">Check Your Internet Connection</property>
     <child type="titlebar">
       <placeholder/>
     </child>

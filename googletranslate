@@ -1,5 +1,26 @@
 #! /usr/bin/python3
 
+# Google Translate Unofficial
+#
+# Copyright 2020 Ramazan Emre Osmanoglu <ramazanemreosmanoglu@gmail.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+
+
 import gi
 
 gi.require_version('Gtk', '3.0')
@@ -9,7 +30,7 @@ from gi.repository import Gtk
 try:
     from googletrans import Translator
 except ImportError:
-    prınt(
+    print(
         'This application needs googletrans module\n'
         'For install:\n'
         '   sudo apt install python3-pip\n'
@@ -22,12 +43,14 @@ translator = Translator()
 
 class Handler:
     def translate_clicked(self, button):
+
         href = from_text_buffer.get_text(from_text_buffer.get_start_iter(), from_text_buffer.get_end_iter(), True)
 
         if not href:
             code = error_message.run()
             if code == -7:
                 error_message.hide()
+            return
         
         fromc = fromcode.get_text()
         if not fromc:
@@ -35,11 +58,15 @@ class Handler:
         
         to_c = tocode.get_text()
         if not to_c:
-            to_c = None
+            code = connection_error.run()
+            if code == -7:
+                connection_error.hide()
+            return
         
         try:
             result = translator.translate(href, dest=to_c, src=fromc)
         except:
+
             code = connection_error.run()
             if code == -7:
                 connection_error.hide()
